@@ -1,0 +1,12 @@
+.container-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100vh;
+    background-image: url('../../assets/images/background.svg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
