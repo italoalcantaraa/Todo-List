@@ -71,6 +71,21 @@
     width: 100%;
 }
 
+@media (max-width: 480px) {
+    .content-form, .content-form-dark {
+        width: 90%;
+    }
+
+    .actions-form {
+        flex-direction: column-reverse;
+        gap: 10px;
+    }
+
+    .actions-form button {
+        width: 100% !important;
+    }
+}
+
 .actions-form button {
     font-weight: bold;
     padding: 10px;

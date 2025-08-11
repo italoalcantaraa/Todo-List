@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import './StyleHome.css';
 import search from '../../assets/images/search.svg';
 import mool from '../../assets/images/moon.svg';
@@ -10,7 +11,7 @@ import empty from '../../assets/images/empty.svg';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import Form from '../../components/newNoteForm/Form';
+import Form from '../../components/form/newNoteForm/Form';
 
 export default function Home() {
   const [itemSearch, setItemSearch] = useState("");
@@ -18,8 +19,18 @@ export default function Home() {
   const [list, setList] = useState([]);
   const [itemFilter, setItemFilter] = useState("1");
   const [itemToEdit, setItemToEdit] = useState(null);
-  const [isLight, setIsLight] = useState(true);
+  const [isLight, setIsLight] = useState(
+    localStorage.getItem("isLight")
+      ? JSON.parse(localStorage.getItem("isLight"))
+      : true
+  );
 
+  const changeTheme = () => {
+    const newValue = !isLight;
+    setIsLight(newValue);
+    localStorage.setItem("isLight", JSON.stringify(newValue));
+  }
+  
   const themes = {
     light: { className: "container-home", icon: sun },
     dark: { className: "container-home-dark", icon: mool }
@@ -73,14 +84,14 @@ export default function Home() {
     filter();
   }, [itemSearch]); // chamar o filter sempre que o item de busca for alterado
 
-  const callEdit = (index) => {
-    setItemToEdit(index);
+  const callEdit = (id) => {
+    setItemToEdit(id);
     setActivePopUp(true);
   }
 
   return (
     <div className={currentTheme.className}>
-      <Form on={activePopUp} setOn={setActivePopUp} list={list} setList={setList} index={itemToEdit} setIndex={setItemToEdit} isLight={isLight} />
+      <Form on={activePopUp} setOn={setActivePopUp} list={list} setList={setList} id={itemToEdit} setId={setItemToEdit} isLight={isLight} />
       <div className='content-home'>
         <div className='n1'>
           <h2>TODO LIST</h2>
@@ -96,7 +107,7 @@ export default function Home() {
               <option value="2">FINISHED</option>
               <option value="3">NOT FINISHED</option>
             </select>
-            <div className='theme' onClick={() => setIsLight(!isLight)}>
+            <div className='theme' onClick={() => changeTheme()}>
               <img src={currentTheme.icon} alt="" />
             </div>
           </div>
@@ -124,7 +135,7 @@ export default function Home() {
                       <input type="checkbox" checked={item.finished} onClick={() => changeStatus(item.id)
 
                       } />
-                      <p><strong>{item.name}</strong></p>
+                      <p id='task-name'><strong>{item.name}</strong></p>
                     </div>
                     <div className='actions'>
                       <img src={pencil} onClick={() => callEdit(item.id)} alt="" />

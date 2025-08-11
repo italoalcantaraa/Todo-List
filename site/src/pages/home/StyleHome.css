@@ -52,13 +52,6 @@
     gap: 20px;
 }
 
-@media (max-width: 720px) {
-    .content-home .n1 .search {
-        flex-wrap: wrap;
-        margin-bottom: 20px;
-    }
-}
-
 .content-home .n1 .search .input {
     display: flex;
     align-items: center;
@@ -119,9 +112,10 @@
     flex-direction: column;
 
     width: 100%;
-    max-width: 80%;
     gap: 10px;
-    padding-top: 20px;
+    padding: 20px;
+    max-height: 500px;
+    overflow: auto;
 }
 
 .content-home .n1 .list .empty {
@@ -132,6 +126,19 @@
     gap: 10px;
     padding-top: 40px;
 }
+
+::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent;
+    padding-left: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #2148C0;
+    width: 5px;
+    border-radius: 12px;
+}
+
 
 
 .content-home .n1 .list .item {
@@ -147,7 +154,13 @@
     gap: 10px;
 }
 
-.content-home .n1 .list .item>div input {
+.content-home .n1 .list .item #task-name {
+    max-width: 350px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.content-home .n1 .list .item>div input:nth-child(1) {
     cursor: pointer;
     height: 16px;
     width: 16px;
@@ -175,4 +188,33 @@
 
 .container-home .content-home #add:active {
     transform: scale(0.99);
+}
+
+@media (max-width: 720px) {
+    .content-home .n1 .search {
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .content-home .n1 .list .item #task-name {
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 580px) {
+    .content-home .n1 .list .item #task-name {
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 500px) {
+    .content-home .n1 .list .item #task-name {
+        max-width: 115px;
+    }
+}
+
+@media (max-height: 670px) {
+    .content-home .n1 .list {
+        max-height: 270px;
+    }
 }

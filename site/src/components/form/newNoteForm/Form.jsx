@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import './StyleForm.css';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -12,26 +13,29 @@ export default function Form(props) {
     const currentTheme = props.isLight ? themes.light : themes.dark;
 
     useEffect(() => {
-        if (props.index != null) {
-            let newName = props.list[props.index].name;
-            setName(newName);
+        if (props.id != null) {
+            let task = props.list.filter(item => item.id === props.id);
+            setName(task[0].name);
         }
-    }, [props.index]);
-
+    }, [props.id]);
 
     const closeWindow = () => {
-        props.setIndex(null);
+        props.setId(null);
         props.setOn(false);
         setName("");
     }
 
     const addOrChange = () => {
-
-        if (props.index != null) {
+        if (props.id != null) {
             let newList = [...props.list];
-            newList[props.index].name = name;
+
+            for (let i = 0; i < props.list.length; i++) {
+                if (props.id === newList[i].id) {
+                    newList[i].name = name;
+                }
+            }
             props.setList(newList);
-            props.setIndex(null);
+            props.setId(null);
         } else {
             props.setList([...props.list, { id: props.list.length, name: name, finished: false }]);
         }

@@ -3,6 +3,11 @@
   src: url('./assets/fonts/Montserrat/static/Montserrat-Light.ttf');
 }
 
+@font-face {
+  font-family: 'montserrat-bold';
+  src: url('./assets/fonts/Montserrat/static/Montserrat-Bold.ttf');
+}
+
 * {
   margin: 0;
   padding: 0;
