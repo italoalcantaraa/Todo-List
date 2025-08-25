@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
 import './StyleCredentialsForm.css'
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { ToastContainer, toast } from 'react-toastify';
 import logo from '../../../assets/images/logo.svg';
 import profile from '../../../assets/images/user.svg';
 import lock from '../../../assets/images/lock.svg';
@@ -11,19 +13,49 @@ export default function CredentialsForm({ login, createAccountOrLogin, buttomTex
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [reqError, setReqError] = useState({ username: true, password: true });
+
+    const navigation = useNavigate();
 
     const slideInLeft = {
         initial: { x: -1000, opacity: 0 },
         animate: { x: 0, opacity: 1 }
     };
 
-    function request() {
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    async function request() {
         setLoading(true);
 
-        setTimeout(() => {
-            createAccountOrLogin();
+        try {
+            const errors = checkFields();
+            errors.map(error => {
+                toast.error(error);
+            })
+
+            // await sleep(500);
+
+            // await createAccountOrLogin({ username, password });
+            // toast.success("Usuário criado com sucesso");
+            // navigation("/");
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
             setLoading(false);
-        }, 1000);
+        }
+    }
+
+    const checkFields = () => {
+        let errors = [];
+
+        if(username == "") {
+            errors.push("Informe o nome.");
+        }
+        if(password == "") {
+            errors.push("Informe a senha.");
+        }
+
+        return errors;
     }
 
     return (
@@ -39,6 +71,7 @@ export default function CredentialsForm({ login, createAccountOrLogin, buttomTex
                     initial="initial"
                     animate="animate"
                     transition={{ duration: 0.5 }}
+                    id={reqError.username ? "error" : ''}
                     className="username">
                     <img src={profile} alt="" />
                     <input type="text"
@@ -51,6 +84,7 @@ export default function CredentialsForm({ login, createAccountOrLogin, buttomTex
                     initial="initial"
                     animate="animate"
                     transition={{ duration: 0.6 }}
+                    id={reqError.username ? "error" : ''}
                     className="password">
                     <img src={lock} alt="" />
                     <input type="password"
@@ -77,6 +111,7 @@ export default function CredentialsForm({ login, createAccountOrLogin, buttomTex
                     login ? "Sign up!" : "Login."}</span>
                 </p>
             </motion.div>
+            <ToastContainer />
         </div>
     );
 }

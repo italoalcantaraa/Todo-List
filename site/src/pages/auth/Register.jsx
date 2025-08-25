@@ -1,17 +1,18 @@
 import CredentialsForm from '../../components/form/credentialsForm/CredentialsForm';
 import { useNavigate } from 'react-router-dom';
 import './StyleAuth.css';
+import { createUser } from '../../service/service';
 
 export default function Register() {
-    const navigate = useNavigate();
+
+    const navigation = useNavigate();
 
     const goToLogin = () => {
-        navigate("/login");
+        navigation("/login");
     }
 
-    const createAccount = () => {
-        console.log("Conta criada");
-        navigate("/")
+    const createAccount = async (data) => {
+        await createUser(data);
     }
 
     return (
